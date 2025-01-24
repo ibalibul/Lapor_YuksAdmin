@@ -1,28 +1,28 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { resetPassword } from "../constant/routes";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { resetPassword } from '../constant/routes';
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
-} from "firebase/auth";
-import { auth, db } from "../firebase/config/config";
-import { addDoc, collection, getDocs } from "firebase/firestore";
-import { setToken, setUid } from "../services/api";
-import { useAuthContext } from "../context/authContext/useAuthContext";
-import Swal from "sweetalert2";
-import axios from "axios";
+} from 'firebase/auth';
+import { auth, db } from '../firebase/config/config';
+import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { setToken, setUid } from '../services/api';
+import { useAuthContext } from '../context/authContext/useAuthContext';
+import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const Login = () => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [inputError, setInputError] = React.useState(false);
   const [isResetPassword, setIsResetPassword] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const userCollection = collection(db, "user");
+  const userCollection = collection(db, 'user');
   const { setAuth } = useAuthContext();
 
   React.useEffect(() => {
-    setInputError(email === "" || password === "");
+    setInputError(email === '' || password === '');
   }, [email, password]);
 
   const getUsers = async () => {
@@ -39,11 +39,11 @@ const Login = () => {
     }
   };
   const handleToResetPass = () => {
-    setEmail("");
+    setEmail('');
     setIsResetPassword(true);
   };
   const handleBackToLogin = () => {
-    setEmail("");
+    setEmail('');
     setIsResetPassword(false);
   };
 
@@ -53,9 +53,9 @@ const Login = () => {
     try {
       await sendPasswordResetEmail(auth, email);
       Swal.fire({
-        icon: "success",
-        title: "Email terkirim",
-        text: "Silahkan cek email anda untuk mereset password, anda akan dialihkan ke halaman login",
+        icon: 'success',
+        title: 'Email terkirim',
+        text: 'Silahkan cek email anda untuk mereset password, anda akan dialihkan ke halaman login',
       });
       setLoading(false);
       handleBackToLogin();
@@ -77,11 +77,11 @@ const Login = () => {
       } = response;
       const users = await getUsers();
       const user = users.find((user) => user.uid === uid);
-      if (!user.roleType || user.roleType !== "admin") {
+      if (!user.roleType || user.roleType !== 'admin') {
         Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Anda bukan admin!",
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Anda bukan admin!',
         });
         setLoading(false);
         return;
@@ -91,16 +91,16 @@ const Login = () => {
       setAuth({ profile: user, isLogin: true });
     } catch (error) {
       console.log(error);
-      if (error.code === "auth/user-not-found") {
+      if (error.code === 'auth/user-not-found') {
         Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Akun tidak ditemukan!",
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Akun tidak ditemukan!',
         });
       } else {
         Swal.fire({
-          icon: "error",
-          title: "Oops...",
+          icon: 'error',
+          title: 'Oops...',
           text: error.message,
         });
       }
@@ -142,7 +142,7 @@ const Login = () => {
                   {loading ? (
                     <div className="w-5 h-5 border-4 border-t-4 border-white border-t-transparent rounded-full animate-spin"></div>
                   ) : (
-                    "Send reset link"
+                    'Send reset link'
                   )}
                 </button>
                 <div className="flex items-center justify-end mt-4">
@@ -158,9 +158,7 @@ const Login = () => {
             </>
           ) : (
             <>
-              <h2 className="text-2xl font-bold mb-4">
-                Sign in 
-              </h2>
+              <h2 className="text-2xl font-bold mb-4">Sign in</h2>
               <form onSubmit={handleLogin}>
                 <div className="mb-4">
                   <label
@@ -213,7 +211,7 @@ const Login = () => {
                   {loading ? (
                     <div className="w-5 h-5 border-4 border-t-4 border-white border-t-transparent rounded-full animate-spin"></div>
                   ) : (
-                    "Sign in"
+                    'Sign in'
                   )}
                 </button>
               </form>
@@ -224,7 +222,6 @@ const Login = () => {
       {/* Right section */}
       <div className="hidden lg:block lg:w-1/2 bg-gray-800 flex flex-col items-center justify-center p-12">
         <div className="w-full max-w-lg mx-auto justify-center">
-  
           <h1 className="text-3xl text-white font-bold mb-4 text-center">
             Download LaporYuks App
           </h1>
@@ -236,8 +233,7 @@ const Login = () => {
           </div>
           <div className="flex-grow flex flex-col items-center justify-center bg-gray-800 p-8">
             <a
-              href="https://play.google.com/"
-             
+              href="https://drive.google.com/drive/folders/1HjZLPTmgJnPCuNmM770Winc7Q9kh0Y8m/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex mt-3 w-48 h-14 bg-black text-white rounded-lg items-center justify-center no-underline hover:bg-gray-900"
